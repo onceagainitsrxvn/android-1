@@ -56,8 +56,8 @@
             android:layout_marginLeft="@dimen/standard_margin"
             android:layout_marginStart="@dimen/standard_margin"
             android:text="@string/upload_files"
-            android:textColor="@color/black"
-            android:textSize="@dimen/bottom_sheet_text_size"/>
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/bottom_sheet_text_size" />
 
     </LinearLayout>
 
@@ -87,8 +87,8 @@
             android:layout_marginLeft="@dimen/standard_margin"
             android:layout_marginStart="@dimen/standard_margin"
             android:text="@string/upload_content_from_other_apps"
-            android:textColor="@color/black"
-            android:textSize="@dimen/bottom_sheet_text_size"/>
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/bottom_sheet_text_size" />
 
     </LinearLayout>
 
@@ -128,8 +128,8 @@
             android:layout_marginLeft="@dimen/standard_margin"
             android:layout_marginStart="@dimen/standard_margin"
             android:text="@string/create_new_folder"
-            android:textColor="@color/black"
-            android:textSize="@dimen/bottom_sheet_text_size"/>
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/bottom_sheet_text_size" />
 
     </LinearLayout>
 
@@ -175,7 +175,7 @@
                 android:layout_marginLeft="@dimen/standard_margin"
                 android:layout_marginStart="@dimen/standard_margin"
                 android:text="@string/create_new_document"
-                android:textColor="@color/black"
+                android:textColor="@color/textColor"
                 android:textSize="@dimen/bottom_sheet_text_size"/>
         </LinearLayout>
 
@@ -204,7 +204,7 @@
                 android:layout_marginLeft="@dimen/standard_margin"
                 android:layout_marginStart="@dimen/standard_margin"
                 android:text="@string/create_new_spreadsheet"
-                android:textColor="@color/black"
+                android:textColor="@color/textColor"
                 android:textSize="@dimen/bottom_sheet_text_size"/>
         </LinearLayout>
 
@@ -233,7 +233,7 @@
                 android:layout_marginLeft="@dimen/standard_margin"
                 android:layout_marginStart="@dimen/standard_margin"
                 android:text="@string/create_new_presentation"
-                android:textColor="@color/black"
+                android:textColor="@color/textColor"
                 android:textSize="@dimen/bottom_sheet_text_size"/>
         </LinearLayout>
     </LinearLayout>

@@ -60,7 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/uploader_upload_files_behaviour"
-            android:textColor="@color/black"
+            android:textColor="@color/textColor"
             android:textStyle="bold"
             android:paddingBottom="@dimen/standard_half_padding"/>
 

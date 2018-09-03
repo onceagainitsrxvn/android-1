@@ -32,6 +32,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.Html;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -60,6 +61,8 @@ import androidx.core.graphics.ColorUtils;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.widget.CompoundButtonCompat;
 import androidx.fragment.app.FragmentActivity;
+
+import static com.owncloud.android.ui.fragment.contactsbackup.ContactListFragment.TAG;
 
 /**
  * Utility class with methods for client side theming.
@@ -111,6 +114,11 @@ public final class ThemeUtils {
     public static int primaryColor(Account account, boolean replaceWhite, Context context) {
         OCCapability capability = getCapability(account, context);
 
+        if (context==null) {
+            Log.d(TAG, "primaryColor: context=null");
+            return 255;
+        }
+        
         try {
             int color = Color.parseColor(capability.getServerColor());
             if (replaceWhite && Color.WHITE == color) {
@@ -340,7 +348,7 @@ public final class ThemeUtils {
      */
     public static void colorSnackbar(Context context, Snackbar snackbar) {
         // Changing action button text color
-        snackbar.setActionTextColor(ContextCompat.getColor(context, R.color.white));
+        snackbar.setActionTextColor(ContextCompat.getColor(context, R.color.textColor));
     }
 
     /**

@@ -23,7 +23,8 @@
     android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:background="@color/background_color">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -51,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="middle"
                     android:text="@string/placeholder_filename"
-                    android:textColor="@color/black"
+                    android:textColor="@color/textColor"
                     android:textStyle="bold"
                     android:textSize="20sp" />
 
@@ -126,7 +127,7 @@
                 android:id="@+id/overflow_menu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@color/background_color"
                 android:src="@drawable/ic_dots_vertical"
                 android:contentDescription="@string/overflow_menu"/>
         </LinearLayout>
@@ -188,7 +189,7 @@
             app:tabGravity="center"
             app:tabMode="fixed"
             app:tabTextAppearance="@style/AppTabTextAppearance"
-            android:background="@color/white" />
+            android:background="@color/background_color" />
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/pager"

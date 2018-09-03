@@ -30,14 +30,15 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/drawer_header"
         app:menu="@menu/drawer_menu"
-        app:theme="@style/NavigationView_ItemTextAppearance">
+        app:theme="@style/NavigationView_ItemTextAppearance"
+        app:itemTextColor="@color/nav_colors">
 
         <LinearLayout
             android:id="@+id/drawer_quota"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:background="@color/white"
+            android:background="@color/background_color"
             android:clickable="false"
             android:orientation="vertical"
             android:paddingBottom="@dimen/standard_half_padding"

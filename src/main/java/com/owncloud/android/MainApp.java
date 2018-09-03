@@ -79,6 +79,7 @@ import java.util.concurrent.TimeUnit;
 import androidx.annotation.RequiresApi;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.util.Pair;
 import androidx.multidex.MultiDexApplication;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -106,6 +107,8 @@ public class MainApp extends MultiDexApplication {
     @SuppressWarnings("unused")
     private static final String POLICY_ALWAYS_NEW_CLIENT = "always new client";
 
+    private static final String DARK_THEME = "darkTheme";
+
     private static Context mContext;
 
     private static String storagePath;
@@ -119,14 +122,15 @@ public class MainApp extends MultiDexApplication {
     @SuppressFBWarnings("ST")
     @Override
     public void onCreate() {
+        appPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        // TODO change "darkTheme" to static reference
+        MainApp.setAppTheme(getAppTheme(appPrefs));
         super.onCreate();
         JobManager.create(this).addJobCreator(new NCJobCreator());
         MainApp.mContext = getApplicationContext();
 
         new SecurityUtils();
         DisplayUtils.useCompatVectorIfNeeded();
-
-        appPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         fixStoragePath();
 
@@ -659,5 +663,18 @@ public class MainApp extends MultiDexApplication {
                 PreferenceManager.setLegacyClean(context, true);
             }
         }
+    }
+
+    public static void setAppTheme(Boolean darkTheme) {
+        if (darkTheme) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+    }
+
+    public static boolean getAppTheme(SharedPreferences prefs) {
+        //SharedPreferences prefs = android.preference.PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getBoolean(DARK_THEME, false);
     }
 }

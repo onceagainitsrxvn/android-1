@@ -32,5 +32,14 @@
 
     <style name="Theme.ownCloud.Toolbar.Drawer">
         <item name="android:statusBarColor">@android:color/transparent</item>
+        <!-- TODO This makes a lot of the white background night compliant -->
+        <!--<item name="android:background">@color/background_color</item>-->
     </style>
+
+    <style name="NavigationView_ItemTextAppearance">
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:color">@color/textColor</item>
+        <item name="android:itemTextAppearance">@color/nav_colors</item>
+    </style>
+
 </resources>
