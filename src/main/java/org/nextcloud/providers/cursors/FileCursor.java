@@ -51,6 +51,10 @@ public class FileCursor extends MatrixCursor {
         final String imagePath = MimeTypeUtil.isImage(file) && file.isDown() ? file.getStoragePath() : null;
         int flags = Document.FLAG_SUPPORTS_WRITE | (imagePath != null ? Document.FLAG_SUPPORTS_THUMBNAIL : 0);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            flags = Document.FLAG_SUPPORTS_COPY | Document.FLAG_SUPPORTS_MOVE | Document.FLAG_SUPPORTS_REMOVE | flags;
+        }
+
         if (file.isFolder()) {
             flags = flags | Document.FLAG_DIR_SUPPORTS_CREATE;
         }
