@@ -48,13 +48,16 @@ import com.owncloud.android.authentication.AccountUtils;
 import com.owncloud.android.datamodel.FileDataStorageManager;
 import com.owncloud.android.datamodel.OCFile;
 import com.owncloud.android.files.services.FileDownloader;
+import com.owncloud.android.files.services.FileUploader;
 import com.owncloud.android.lib.common.OwnCloudAccount;
 import com.owncloud.android.lib.common.OwnCloudClient;
 import com.owncloud.android.lib.common.OwnCloudClientManagerFactory;
 import com.owncloud.android.lib.common.operations.RemoteOperationResult;
 import com.owncloud.android.lib.common.utils.Log_OC;
 import com.owncloud.android.operations.CreateFolderOperation;
+import com.owncloud.android.operations.RefreshFolderOperation;
 import com.owncloud.android.operations.SynchronizeFileOperation;
+import com.owncloud.android.operations.UploadFileOperation;
 import com.owncloud.android.ui.activity.ConflictsResolveActivity;
 import com.owncloud.android.ui.activity.Preferences;
 import com.owncloud.android.utils.FileStorageUtils;
@@ -116,7 +119,7 @@ public class DocumentsStorageProvider extends DocumentsProvider {
         }
 
         if (currentStorageManager == null) {
-            throw new FileNotFoundException("File with " + documentId + " not found");
+            throw new FileNotFoundException("File with id " + documentId + " not found");
         }
 
         OCFile file = currentStorageManager.getFileById(docId);
@@ -307,6 +310,15 @@ public class DocumentsStorageProvider extends DocumentsProvider {
             throw new FileNotFoundException("Parent file not found");
         }
 
+        if ("vnd.android.document/directory".equalsIgnoreCase(mimeType)) {
+            return createFolder(parent, displayName, documentId);
+        } else {
+            return createFile(parent, displayName, documentId);
+        }
+    }
+
+    private String createFolder(OCFile parent, String displayName, String documentId) throws FileNotFoundException {
+
         CreateFolderOperation createFolderOperation = new CreateFolderOperation(parent.getRemotePath() + displayName
                                                                                     + "/", true);
         RemoteOperationResult result = createFolderOperation.execute(client, currentStorageManager);
@@ -322,6 +334,52 @@ public class DocumentsStorageProvider extends DocumentsProvider {
         OCFile newFolder = currentStorageManager.getFileByPath(newDirPath);
 
         return String.valueOf(newFolder.getFileId());
+    }
+
+    private String createFile(OCFile parent, String displayName, String documentId) throws FileNotFoundException {
+        Context context = getContext();
+
+        if (context == null) {
+            throw new FileNotFoundException("Context may not be null!");
+        }
+
+        Account account = currentStorageManager.getAccount();
+
+        // create dummy file
+        File tempDir = new File(FileStorageUtils.getTemporalPath(account.name));
+        File emptyFile = new File(tempDir, displayName);
+        try {
+            if (!emptyFile.createNewFile()) {
+                throw new FileNotFoundException("File could not be created");
+            }
+        } catch (IOException e) {
+            throw new FileNotFoundException("File could not be created");
+        }
+
+        FileUploader.UploadRequester requester = new FileUploader.UploadRequester();
+        requester.uploadNewFile(getContext(), account, new String[]{emptyFile.getAbsolutePath()},
+                                new String[]{parent.getRemotePath() + displayName}, null,
+                                FileUploader.LOCAL_BEHAVIOUR_MOVE, true, UploadFileOperation.CREATED_BY_USER, false,
+                                false);
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        RemoteOperationResult updateParent = new RefreshFolderOperation(parent, System.currentTimeMillis(),
+                                                                        false, false, true, currentStorageManager,
+                                                                        account, getContext()).execute(client);
+
+        if (!updateParent.isSuccess()) {
+            throw new FileNotFoundException("Failed to create document with documentId " + documentId);
+        }
+
+        String newFilePath = parent.getRemotePath() + displayName;
+        OCFile newFile = currentStorageManager.getFileByPath(newFilePath);
+
+        return String.valueOf(newFile.getFileId());
     }
 
     @SuppressLint("LongLogTag")
