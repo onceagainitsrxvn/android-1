@@ -60,8 +60,7 @@
             android:textCursorDrawable="@color/primary"
             android:imeOptions="flagNoExtractUi"
             android:importantForAutofill="no"
-            android:hint="@string/hidden_character"
-            android:textCursorDrawable="@null">
+            android:hint="@string/hidden_character">
             <requestFocus/>
         </com.google.android.material.textfield.TextInputEditText>
 
